@@ -28,7 +28,7 @@ Each run performs **100 iterations** of assignment and centroid update. Inertia 
 | Dataset | Clusters (K) | CPU time (s) | GPU time (s) | Speedup |
 |---|---:|---:|---:|---:|
 | Fashion-MNIST | 10 | 42.343 | 0.43354 | ~97.7× |
-| SIFT | 10 | - | 2.38144 | ~17.8× |
+| SIFT | 10 | - | 2.38144 | - |
 | SIFT | 256 | 2368.88 | 51.956 | ~45.6× |
  
 *Times are averages in seconds.*
