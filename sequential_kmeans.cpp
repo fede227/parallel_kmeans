@@ -1,4 +1,4 @@
-#define NOMINMAX            // [WIN] evita che le macro min/max di windows.h rompano std::numeric_limits<>::max()
+#define NOMINMAX            
 #include <iostream>
 #include <vector>
 #include <H5Cpp.h>
@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <iterator>
 #include <limits>
-#include <chrono>           // [TEMPO] per misurare la durata dell'algoritmo
+#include <chrono>          
 #include <opencv2/opencv.hpp>
 
 struct ClusteringResult {
@@ -79,9 +79,6 @@ void recalculate_centroids(const std::vector<float>& data, const std::vector<int
                 centroids[cluster_offset + j] = sums[cluster_offset + j] / counts[k];
             }
         }
-        // [FIX] qui c'era "else if(counts[k]==0){ centroids[cl] }": istruzione incompleta che non compila
-        // neanche su Ubuntu. Rimossa: un cluster vuoto mantiene il centroide precedente
-        // (stesso comportamento del kernel "averaging" della versione CUDA).
     }
 }
 
@@ -145,8 +142,6 @@ int main() {
             data[i] /= 255.0f;
         }
 
-        // [TEMPO] inizio misura: inizializzazione dei centroidi + tutte le iterazioni di Lloyd
-        // (esclusi caricamento del file HDF5 e visualizzazione, come nella versione CUDA)
         auto t_start = std::chrono::steady_clock::now();
 
         std::vector<float> centroids = init_centroids(data, num_samples, num_features, K);
@@ -187,7 +182,6 @@ int main() {
             std::cout << "Iterazione " << result.iterations_performed << " - Inerzia: " << result.inertia << std::endl;
         }
 
-        // [TEMPO] fine misura
         auto t_end = std::chrono::steady_clock::now();
         double elapsed = std::chrono::duration<double>(t_end - t_start).count();
 
