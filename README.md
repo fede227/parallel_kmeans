@@ -17,7 +17,7 @@ Tests currently run on two datasets:
 | File | Description |
 |---|---|
 | `parallel_kmeans.cu` | CUDA C++ implementation of the parallel algorithm. Block and grid sizes are currently tuned for an NVIDIA RTX 5060 GPU. |
-| `sequential_kmeans.cpp` | Sequential C++ implementation, used as the benchmark baseline and as ground truth for checking results. |
+| `sequential_kmeans.cpp` | Sequential SINGLE THREADED C++ implementation, used as the benchmark baseline and as ground truth for checking results. |
  
 ## Benchmarks
  
@@ -52,3 +52,4 @@ More benchmarks will follow, with different block sizes, to find the best value 
 - [ ] New assignment kernel that makes better use of GPU resources and scales better with the number of clusters
 - [ ] First ANN-search implementation based on the clustered dataset
 - [ ] Block-size benchmarks across different GPU architectures
+- [ ] Develop parallel multi-threaded approach to test against CUDA-based parallelization using OpenMP
