@@ -1,4 +1,4 @@
-#define NOMINMAX            // [WIN] evita che le macro min/max di windows.h rompano std::numeric_limits<>::max()
+#define NOMINMAX          
 #include <iostream>
 #include <vector>
 #include <H5Cpp.h>
@@ -8,9 +8,9 @@
 #include <algorithm>
 #include <iterator>
 #include <limits>
-#include <cstdint>          // [WIN] uint8_t non è garantito transitivamente con MSVC
+#include <cstdint>         
 #include <opencv2/opencv.hpp>
-#include <chrono>           // [WIN] sostituisce <sys/time.h>, che non esiste su Windows
+#include <chrono>          
 #include <cuda_runtime.h>
 using namespace std;
 
@@ -99,7 +99,7 @@ struct ClusteringResult {
     bool converged;
 };
 
-// [WIN] gettimeofday non esiste su Windows: stessa semantica (secondi come double) con std::chrono
+
 double cpuSecond() {
     using namespace std::chrono;
     return duration<double>(steady_clock::now().time_since_epoch()).count();
