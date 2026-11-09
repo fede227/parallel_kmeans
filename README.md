@@ -27,17 +27,20 @@ Each run performs **100 iterations** of assignment and centroid update. Inertia 
  
 | Dataset | Clusters (K) | CPU time (s) | GPU time (s) | Speedup |
 |---|---:|---:|---:|---:|
-| Fashion-MNIST | 10 | 42.343 | 0.43354 | ~97.7× |
-| SIFT | 10 | - | 2.38144 | - |
-| SIFT | 256 | 2368.88 | 51.956 | ~45.6× |
+| Fashion-MNIST | 10 | 42.343 | 0.126 | ~336× |
+| SIFT | 256 | 2368.88 | 8.537 | ~277.5× |
  
 *Times are averages in seconds.*
  
-The speedup grows with the number of clusters on SIFT, reaching about **46×** at K = 256.
+The speedup grows with the number of clusters on SIFT, reaching about **277×** at K = 256.
  
 ### Profiling
  
-Profiling the parallel version with `nsys` shows that the **assignment kernel takes about 96% of GPU time**. It is the least optimized kernel: each thread (one per data element) computes the distance to *all* centroids. This scales poorly with the number of clusters. It works well for small K (the Fashion-MNIST runs and the first SIFT run) and poorly for large K (the last SIFT run).
+Originally profiling the parallel version with `nsys` showed that the **assignment kernel takes about 96% of GPU time**. It is the least optimized kernel: each thread (one per data element) computes the distance to *all* centroids. This scales poorly with the number of clusters. It works well for small K (the Fashion-MNIST runs and the first SIFT run) and poorly for large K (the last SIFT run). To solve this issue a transposed version of the dataset matrix was used in this kernel to allow for coalescent reads from memory (since matrixes in CUDA are stored in the row-major format) this resulted in an important speedup as can be seen from the comparison below. 
+| Dataset | Clusters (K) | GPU time Not Transposed (s) | GPU time Transposed (s) | Speedup |
+|---|---:|---:|---:|---:|
+| Fashion-MNIST | 10 | 0.433 | **0.126** | ~3.4× |
+| SIFT | 256 | 51.956 | **8.537** | ~6.1× |
  
 More benchmarks will follow, with different block sizes, to find the best value for each GPU architecture.
  
@@ -49,7 +52,7 @@ More benchmarks will follow, with different block sizes, to find the best value 
  
 ## Roadmap
  
-- [ ] New assignment kernel that makes better use of GPU resources and scales better with the number of clusters
+- [ ] Computing inertia and running more tests
 - [ ] First ANN-search implementation based on the clustered dataset
 - [ ] Block-size benchmarks across different GPU architectures
 - [ ] Develop parallel multi-threaded approach to test against CUDA-based parallelization using OpenMP
