@@ -1,5 +1,10 @@
 # Parallel K-Means
- 
+ <p align="left">
+  <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++" />
+  <img src="https://img.shields.io/badge/CUDA-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="CUDA" />
+  <img src="https://img.shields.io/badge/NVIDIA-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="NVIDIA RTX" />
+  <img src="https://img.shields.io/badge/Algorithm-K--Means-orange?style=for-the-badge" alt="K-Means" />
+</p>
 CUDA parallelization of **Lloyd's algorithm**, built as a fast clustering step for **approximate nearest-neighbour (ANN) search**.
  
 > **Status:** early-stage research code. The implementation is not yet refined, but it is sufficient for a first round of benchmarks showing that the parallel approach is worth pursuing.
